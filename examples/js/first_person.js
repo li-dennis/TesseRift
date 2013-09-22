@@ -222,9 +222,9 @@ function onMouseMove(event) {
 }
 
 function onMouseDown(event) {
-  // Stub
-  floorTexture.needsUpdate = true;
-  console.log("update.");
+//  // Stub
+//  floorTexture.needsUpdate = true;
+//  console.log("update.");
 }
 
 
@@ -257,27 +257,33 @@ function updateInput(delta) {
   var turn_speed  = (55 * delta) * Math.PI / 180;
 
 
+  var pLocal = new THREE.Vector3( 0, 0, -1 );
+  var pWorld = pLocal.applyMatrix4( camera.matrixWorld );
+  var dir = pWorld.sub( camera.position ).normalize();
+
   // Forward/backward
 
   if(keys[87] || keys[38]){ // W or UP
-      bodyPosition.x += Math.cos(viewAngle) * step;
-      bodyPosition.z += Math.sin(viewAngle) * step;
+      bodyPosition.x += dir.x * step;
+      bodyPosition.y += dir.y * step;
+      bodyPosition.z += dir.z * step;
   }
 
   if(keys[83] || keys[40]){ // S or DOWN
-      bodyPosition.x -= Math.cos(viewAngle) * step;
-      bodyPosition.z -= Math.sin(viewAngle) * step;
+      bodyPosition.x -= dir.x * step;
+      bodyPosition.y -= dir.y * step;
+      bodyPosition.z -= dir.z * step;
   }
 
-  if(keys[65] || keys[37]){ // A or LEFT
-      bodyPosition.x -= Math.cos(viewAngle + Math.PI/2) * step;
-      bodyPosition.z -= Math.sin(viewAngle + Math.PI/2) * step;
-  }
-
-  if(keys[68] || keys[39]){ // D or RIGHT
-      bodyPosition.x += Math.cos(viewAngle+Math.PI/2) * step;
-      bodyPosition.z += Math.sin(viewAngle+Math.PI/2) * step;
-  }
+//  if(keys[65] || keys[37]){ // A or LEFT
+//      bodyPosition.x -= Math.cos(viewAngle + Math.PI/2) * step;
+//      bodyPosition.z -= Math.sin(viewAngle + Math.PI/2) * step;
+//  }
+//
+//  if(keys[68] || keys[39]){ // D or RIGHT
+//      bodyPosition.x += Math.cos(viewAngle+Math.PI/2) * step;
+//      bodyPosition.z += Math.sin(viewAngle+Math.PI/2) * step;
+//  }
 
   // update the camera position when rendering to the oculus rift.
   camera.position.set(bodyPosition.x, bodyPosition.y, bodyPosition.z);
