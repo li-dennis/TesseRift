@@ -87,13 +87,13 @@ function initScene() {
 
   // scene.fog = new THREE.Fog(0xdbf7ff, 300, 700);
   // post processing
-  composer = new THREE.EffectComposer(renderer);
+  /*composer = new THREE.EffectComposer(renderer);
   composer.addPass(new THREE.RenderPass(scene, camera));
 
   var fxaa = new THREE.ShaderPass(THREE.FXAAShader);
   fxaa.uniforms['resolution'].value = new THREE.Vector2(1/window.innerWidth, 1/window.innerHeight);
   composer.addPass(fxaa);
-
+*/
   element = document.getElementById('viewport');
   element.appendChild(renderer.domElement);
 
