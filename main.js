@@ -110,7 +110,9 @@ function initLights(){
   scene.add(point);
 }
 
+var floorMaterial;
 var projection;
+// var floor;
 function initGeometry(){
 //  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
 //  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
@@ -119,21 +121,10 @@ function initGeometry(){
 //
 //  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, transparent:true, opacity:0.80 } );
 //  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-//  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+//  floor = new THREE.Mesh(floorGeometry, floorMaterial);
 //  floor.rotation.x = -Math.PI / 2;
-
+//  floor.position.y = -150;
 //  scene.add(floor);
-
-//  var material = new THREE.MeshLambertMaterial({ emissive:0x505050, color: 0xffffff});
-//
-//  var height = 100
-//  var width = 100
-//
-//  var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
-//
-//  box.position.set(0, 0, 0)
-//  scene.add(box);
-
   hyper_shape = new Shape(vertices, edges);
 
   projection = hyper_shape.project();

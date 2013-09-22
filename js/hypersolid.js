@@ -142,7 +142,6 @@ function Shape(vertices, edges) {
       geometry.vertices.push(new THREE.Vector3(start.x, start.y, start.z));
       geometry.vertices.push(new THREE.Vector3(end.x, end.y, end.z));
       //debugger
-      console.log(start.w);
       geometry.colors.push(new THREE.Color(0xff0000 | (start.w+100)*255/200<<8));
       geometry.colors.push(new THREE.Color(0xff0000 | (end.w+100)*255/200<<8));
     }

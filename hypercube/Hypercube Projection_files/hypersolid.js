@@ -235,7 +235,7 @@
       }
     };
 
-    canvas.onmousedown = function(e) { 
+    canvas.onmousedown = function(e) {
       startCoords = mouseCoords(e, canvas);
       startCoords.x -= Math.floor(canvas.width / 2);
       startCoords.y = Math.floor(canvas.height / 2) - startCoords.y;
@@ -287,14 +287,14 @@
   function mouseCoords(e, element) { // http://answers.oreilly.com/topic/1929-how-to-use-the-canvas-and-draw-elements-in-html5/
     var x;
     var y;
-    if (e.pageX || e.pageY) { 
+    if (e.pageX || e.pageY) {
       x = e.pageX;
       y = e.pageY;
     }
-    else { 
-      x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; 
-      y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; 
-    } 
+    else {
+      x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
     x -= element.offsetLeft;
     y -= element.offsetTop;
     return { 'x': x, 'y': y };
