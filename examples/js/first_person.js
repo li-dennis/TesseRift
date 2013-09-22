@@ -226,33 +226,43 @@ function onMouseDown(event) {
   // Stub
 }
 
+var numToAxis = {
+  1:'xy',
+  2:'yz',
+  3:'zw',
+  4:'xw',
+  5:'xz',
+  6:'xw'
+};
+
+var keys = [];
 function onKeyDown(event) {
   // prevent repeat keystrokes.
-  if(event.keyCode >= 48 && event.keyCode <= 57){
-    var axis = numToAxis[event.keyCode - 48];
-    hyper_shape.rotate(axis, Math.PI*1/600);
-    scene.remove(projection);
-    projection = hyper_shape.project();
-    scene.add(projection);
-    return;
-  }
-
-  keys[event.keyCode] = true;
+ keys[event.keyCode] = true;
 }
-
-var numToAxis = {
-  1:'zw',
-  2:'xw',
-  3:'xy',
-  4:'yz'
-};
 
 function onKeyUp(event) {
   keys[event.keyCode] = false;
 }
 
-
 function updateInput(delta) {
+ for(var i=0; i<keys.length; i++){
+    if(i >= 48 && i <= 57 && keys[i]){
+      var axis = numToAxis[i - 48];
+      if(keys[16]){
+        hyper_shape.rotate(axis, -Math.PI*1/600);
+      }
+      else{
+        hyper_shape.rotate(axis, Math.PI*1/600);
+      }
+
+    }
+  }
+
+  scene.remove(projection);
+  projection = hyper_shape.project();
+  scene.add(projection);
+
   if(!useRift) {
     return;
   }
