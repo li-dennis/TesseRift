@@ -11,10 +11,6 @@ var useRift = false;
 
 var riftCam;
 
-var boxes = [];
-var core = [];
-var dataPackets = [];
-
 var ground, groundGeometry, groundMaterial;
 
 var bodyAngle;
@@ -23,6 +19,44 @@ var bodyPosition;
 var viewAngle;
 
 var oculusBridge;
+var hyper_shape;
+
+var verticies = [
+    { x:  1, y:  1, z:  1, w:  1 },
+    { x:  1, y:  1, z:  1, w: -1 },
+    { x:  1, y:  1, z: -1, w:  1 },
+    { x:  1, y:  1, z: -1, w: -1 },
+    { x:  1, y: -1, z:  1, w:  1 },
+    { x:  1, y: -1, z:  1, w: -1 },
+    { x:  1, y: -1, z: -1, w:  1 },
+    { x:  1, y: -1, z: -1, w: -1 },
+    { x: -1, y:  1, z:  1, w:  1 },
+    { x: -1, y:  1, z:  1, w: -1 },
+    { x: -1, y:  1, z: -1, w:  1 },
+    { x: -1, y:  1, z: -1, w: -1 },
+    { x: -1, y: -1, z:  1, w:  1 },
+    { x: -1, y: -1, z:  1, w: -1 },
+    { x: -1, y: -1, z: -1, w:  1 },
+    { x: -1, y: -1, z: -1, w: -1 }
+  ]
+
+var edges = [
+    [ 0,  1], [ 0,  2], [ 0,  4], [ 0,  8],
+              [ 1,  3], [ 1,  5], [ 1,  9],
+              [ 2,  3], [ 2,  6], [ 2, 10],
+                        [ 3,  7], [ 3, 11],
+              [ 4,  5], [ 4,  6], [ 4, 12],
+                        [ 5,  7], [ 5, 13],
+                        [ 6,  7], [ 6, 14],
+                                  [ 7, 15],
+              [ 8,  9], [ 8, 10], [ 8, 12],
+                        [ 9, 11], [ 9, 13],
+                        [10, 11], [10, 14],
+                                  [11, 15],
+                        [12, 13], [12, 14],
+                                  [13, 15],
+                                  [14, 15]
+  ]
 
 // Map for key states
 var keys = [];
@@ -43,7 +77,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 10000);
   camera.useQuaternion = true;
 
-  camera.position.set(100, 150, 100);
+  camera.position.set(300, 300, 300);
   camera.lookAt(scene.position);
 
   // Initialize the renderer
@@ -69,81 +103,38 @@ function initLights(){
   scene.add(point);
 }
 
-var floorTexture;
+var floortexture;
+
 function initGeometry(){
-//  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
-//  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-//  floorTexture.repeat.set( 50, 50 );
-//  floorTexture.anisotropy = 32;
-//
-//  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, transparent:true, opacity:0.80 } );
-//  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-//  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-//  floor.rotation.x = -Math.PI / 2;
+  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
+  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+  floorTexture.repeat.set(50, 50);
+  floorTexture.anisotropy = 8;
 
-//  scene.add(floor);
+  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, transparent:true, opacity:0.80 } );
+  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.rotation.x = -Math.PI / 2;
 
-  // add some boxes.
-  var boxTexture = new THREE.ImageUtils.loadTexture( "textures/blue_blue.jpg" );
-  for(var i = 0; i < 200; i++){
-    var material = new THREE.MeshLambertMaterial({ emissive:0x505050, map: boxTexture, color: 0xffffff});
+  scene.add(floor);
 
-    var height = Math.random() * 150+10;
-    var width = Math.random() * 20 + 2;
+  var material = new THREE.MeshLambertMaterial({ emissive:0x505050, color: 0xffffff});
 
-    var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
+  var height = 100
+  var width = 100
 
-    box.position.set(Math.random() * 1000 - 500, height/2 ,Math.random() * 1000 - 500);
-    box.rotation.set(0, Math.random() * Math.PI * 2, 0);
+  var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
 
-    boxes.push(box);
-    scene.add(box);
-  }
+  box.position.set(0, 0, 0)
+  scene.add(box)
 
-//  var coreTexture = new THREE.ImageUtils.loadTexture( "textures/purple_blue.jpg" );
-//  for(var i = 0; i < 50; i++){
-//    var material = new THREE.MeshLambertMaterial({ emissive:0x505050, map: coreTexture, color: 0xffffff});
-//
-//    var height = Math.random() * 100+30;
-//
-//    var box = new THREE.Mesh( new THREE.CubeGeometry(height, height, height), material);
-//
-//    box.position.set(Math.random() * 1000 - 500, Math.random() * 150 - 300 ,Math.random() * 1000 - 500);
-//    box.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
-//
-//    core.push(box);
-//    scene.add(box);
-//  }
+  hyper_shape = Shape()
 
-  for(var i = 0; i < 100; i++){
-    var material = new THREE.MeshLambertMaterial({ emissive:0x008000, color: 0x00FF00});
 
-    var size = Math.random() * 15+3;
-
-    var box = new THREE.Mesh( new THREE.CubeGeometry(size, size*0.1, size*0.1), material);
-
-    box.position.set(Math.random() * 1000 - 500, Math.random() * 100 + 100 ,Math.random() * 1000 - 500);
-    //box.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
-
-    var speedVector;
-    if(Math.random() > 0.5){
-      speedVector = new THREE.Vector3(0, 0, Math.random() * 1.5 + 0.5);
-      box.rotation.y = Math.PI / 2;
-    } else {
-      speedVector = new THREE.Vector3(Math.random() * 1.5 + 0.5, 0, 0);
-    }
-
-    dataPackets.push({
-      obj: box,
-      speed: speedVector
-    });
-    scene.add(box);
-  }
 }
 
 
 function init(){
-
   document.addEventListener('keydown', onKeyDown, false);
   document.addEventListener('keyup', onKeyUp, false);
   document.addEventListener('mousedown', onMouseDown, false);
@@ -219,24 +210,12 @@ function onMouseMove(event) {
 }
 
 function onMouseDown(event) {
-//  // Stub
-//  floorTexture.needsUpdate = true;
-//  console.log("update.");
+  // Stub
 }
 
 
 function onKeyDown(event) {
-  if(event.keyCode == 48){ // zero key.
-    useRift = !useRift;
-    onResize();
-  }
-
-  // prevent repeat keystrokes.
-  if(!keys[32] && (event.keyCode == 32)){ // Spacebar to jump
-    // velocity.y += 1.9;
-  }
-
-  keys[event.keyCode] = true;
+ // Stub
 }
 
 
@@ -250,8 +229,7 @@ function updateInput(delta) {
     return;
   }
 
-  var step        = 100 * delta;
-  // Forward/backward
+  var step = 100 * delta;
 
   if(keys[87] || keys[38]){ // W or UP
     camera.translateZ(-step)
@@ -268,8 +246,6 @@ function updateInput(delta) {
   if(keys[68] || keys[39]){ // D or RIGHT
     camera.translateX(step)
   }
-
-  // update the camera position when rendering to the oculus rift.
 }
 
 
@@ -278,26 +254,20 @@ function animate() {
   time += delta;
 
   updateInput(delta);
-  for(var i = 0; i < core.length; i++){
-    core[i].rotation.x += delta * 0.25;
-    core[i].rotation.y -= delta * 0.33;
-    core[i].rotation.z += delta * 0.1278;
-  }
-
-  var bounds = 600;
-  for(var i = 0; i < dataPackets.length; i++){
-    dataPackets[i].obj.position.add( dataPackets[i].speed);
-    if(dataPackets[i].obj.position.x < -bounds) {
-      dataPackets[i].obj.position.x = bounds;
-    } else if(dataPackets[i].obj.position.x > bounds){
-      dataPackets[i].obj.position.x = -bounds;
-    }
-    if(dataPackets[i].obj.position.z < -bounds) {
-      dataPackets[i].obj.position.z = bounds;
-    } else if(dataPackets[i].obj.position.z > bounds){
-      dataPackets[i].obj.position.z = -bounds;
-    }
-  }
+//  var bounds = 600;
+//  for(var i = 0; i < dataPackets.length; i++){
+//    dataPackets[i].obj.position.add( dataPackets[i].speed);
+//    if(dataPackets[i].obj.position.x < -bounds) {
+//      dataPackets[i].obj.position.x = bounds;
+//    } else if(dataPackets[i].obj.position.x > bounds){
+//      dataPackets[i].obj.position.x = -bounds;
+//    }
+//    if(dataPackets[i].obj.position.z < -bounds) {
+//      dataPackets[i].obj.position.z = bounds;
+//    } else if(dataPackets[i].obj.position.z > bounds){
+//      dataPackets[i].obj.position.z = -bounds;
+//    }
+//  }
 
   requestAnimationFrame(animate);
   render();

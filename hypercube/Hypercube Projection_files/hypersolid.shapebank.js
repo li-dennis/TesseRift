@@ -9,7 +9,7 @@
   };
   function Hypercube() {}
   Hypercube.prototype = Hypersolid.Shape([
-    { x:  1, y:  1, z:  1, w:  10 },
+    { x:  1, y:  1, z:  1, w:  1 },
     { x:  1, y:  1, z:  1, w: -1 },
     { x:  1, y:  1, z: -1, w:  1 },
     { x:  1, y:  1, z: -1, w: -1 },
