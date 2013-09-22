@@ -1,0 +1,22 @@
+body {
+	font-family: 'Strait', sans-serif;
+	background-color: #161616;
+	color: #fff;
+	margin: 0px;
+	overflow: hidden;
+	letter-spacing:1px;
+	font-size:13px;
+}
+
+.button {
+	font: 'Strait', sans-serif;
+	cursor:pointer;
+	display:inline-block;
+	background:#404040;
+	padding:10px;
+	color:#a0a0a0;
+}
+
+.button:hover{
+	color:white;
+}

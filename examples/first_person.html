@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>OculusBridge - VR Scene</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link href='css/style.css' rel='stylesheet' type='text/css'>
+    <style>
+      #info{
+        padding:10px;
+        color:#fff;
+        position:absolute;
+        background-color:rgba(0,0,0,0.4);
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <div id="info">
+      <div class="button" id="toggle-render">toggle render mode</div>
+     </div>
+    </div>
+
+    <div id="viewport"></div>
+
+    <script src="../web/build/OculusBridge.min.js"></script>
+
+    <script src="lib/three.min.r59.js"></script>
+    <script src="lib/OrbitControls.js"></script>
+    <script src="lib/RiftCamera.js"></script>
+
+    <script src="js/first_person.js"></script>
+  </body>
+</html>

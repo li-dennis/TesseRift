@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://hypersolid.milosz.ca/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="UTF-8"> 
+		<title>Hypercube Projection</title>
+		<link rel="stylesheet" type="text/css" href="./Hypercube Projection_files/main.css">
+		<script type="text/javascript" src="./Hypercube Projection_files/hypersolid.js"></script><style type="text/css"></style>
+		<script type="text/javascript" src="./Hypercube Projection_files/hypersolid.shapebank.js"></script>
+	<style>[touch-action="none"]{ -ms-touch-action: none; touch-action: none; }[touch-action="pan-x"]{ -ms-touch-action: pan-x; touch-action: pan-x; }[touch-action="pan-y"]{ -ms-touch-action: pan-y; touch-action: pan-y; }[touch-action="scroll"],[touch-action="pan-x pan-y"],[touch-action="pan-y pan-x"]{ -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; }</style></head>
+	<body style="">
+		<canvas id="hypercube-canvas" width="480" height="480">Unfortunately, your browser does not support coolness.</canvas>
+		<table id="instructions">
+			<tbody><tr>
+				<td>drag left/right</td><td><strong>xz</strong> rotation</td>
+			</tr>
+			<tr>
+				<td>drag up/down</td><td><strong>yz</strong> rotation</td>
+			</tr>
+			<tr>
+				<td><span class="key">shift</span>+drag left/right</td><td><strong>xw</strong> rotation</td>
+			</tr>
+			<tr>
+				<td><span class="key">shift</span>+drag up/down</td><td><strong>yw</strong> rotation</td>
+			</tr>
+			<tr>
+				<td><span class="key">alt</span>+<span class="key">shift</span>+drag left/right</td><td><strong>xy</strong> rotation</td>
+			</tr>
+			<tr>
+				<td><span class="key">alt</span>+<span class="key">shift</span>+drag up/down</td><td><strong>zw</strong> rotation</td>
+			</tr>
+		</tbody></table>
+		<form id="hypercube-options">
+			<table>
+				<tbody><tr>
+					<td><label><input type="checkbox" name="indices">Indices</label></td>
+					<td><label><input type="checkbox" checked="" name="edges">Edges</label></td>
+				</tr>
+				<tr>
+					<td><label><input type="checkbox" checked="" name="perspective">Perspective</label></td>
+				</tr>
+			</tbody></table>
+		</form>
+	<div id="errata">The rotation UI is currently slightly wonky! This is the result of a refactoring and apparently also of my lack of understanding of Gimbal Locks! I am working on it! <div class="sig">Milosz</div></div>
+	<script type="text/javascript">
+	/* <![CDATA[ */ (function() {
+
+		Hypersolid.Viewport(Hypersolid.Hypercube(), document.getElementById('hypercube-canvas'), {
+			checkboxes: document.getElementById('hypercube-options'),
+			width: 480,
+			height: 480,
+			scale: 2,
+			font: 'italic 10px sans-serif',
+			fontColor: '#000',
+			lineWidth: 4,
+			lineJoin: 'round'
+		}).draw();	
+
+	})(); // ]]>
+	</script>
+	
+
+<iframe id="rdbIndicator" width="100%" height="270" border="0" src="./Hypercube Projection_files/indicator.html" style="display: none; border: 0; position: fixed; left: 0; top: 0; z-index: 2147483647"></iframe></body></html>
