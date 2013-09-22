@@ -253,9 +253,8 @@ function updateInput(delta) {
     return;
   }
 
-  var step        = 25 * delta;
+  var step        = 100 * delta;
   var turn_speed  = (55 * delta) * Math.PI / 180;
-
 
   var pLocal = new THREE.Vector3( 0, 0, -1 );
   var pWorld = pLocal.applyMatrix4( camera.matrixWorld );
@@ -264,15 +263,15 @@ function updateInput(delta) {
   // Forward/backward
 
   if(keys[87] || keys[38]){ // W or UP
-      bodyPosition.x += dir.x * step;
-      bodyPosition.y += dir.y * step;
-      bodyPosition.z += dir.z * step;
-  }
-
-  if(keys[83] || keys[40]){ // S or DOWN
       bodyPosition.x -= dir.x * step;
       bodyPosition.y -= dir.y * step;
       bodyPosition.z -= dir.z * step;
+  }
+
+  if(keys[83] || keys[40]){ // S or DOWN
+      bodyPosition.x += dir.x * step;
+      bodyPosition.y += dir.y * step;
+      bodyPosition.z += dir.z * step;
   }
 
 //  if(keys[65] || keys[37]){ // A or LEFT
