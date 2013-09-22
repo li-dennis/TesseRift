@@ -125,7 +125,8 @@ function Shape(vertices, edges) {
 
   self.project = function() {
     var material = new THREE.LineBasicMaterial({
-        color: 0xffffff,
+        //color: 0xffffff,
+        vertexColors: THREE.VertexColors,
         linewidth: 5
     });
 
@@ -138,8 +139,10 @@ function Shape(vertices, edges) {
       var start = vertices[edge[0]];
       var end = vertices[edge[1]];
       geometry.vertices.push(new THREE.Vector3(start.x, start.y, start.z));
-
       geometry.vertices.push(new THREE.Vector3(end.x, end.y, end.z));
+debugger
+      geometry.vertexColors.push(new THREE.Color(0xff00ff));
+      geometry.vertexColors.push(new THREE.Color(0xff00ff));
     }
     var lines = new THREE.Line(geometry, material, THREE.LinePieces);
 
