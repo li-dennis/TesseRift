@@ -1,5 +1,6 @@
 function Shape(vertices, edges) {
   var self = this;
+  var tmp;
 
   // Rotations will always be relative to the original shape to avoid rounding errors.
   // This is a structure for caching the rotated vertices.
