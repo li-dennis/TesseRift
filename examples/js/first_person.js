@@ -22,22 +22,22 @@ var oculusBridge;
 var hyper_shape;
 
 var vertices = [
-    { x:  1, y:  1, z:  1, w:  1 },
-    { x:  1, y:  1, z:  1, w: -1 },
-    { x:  1, y:  1, z: -1, w:  1 },
-    { x:  1, y:  1, z: -1, w: -1 },
-    { x:  1, y: -1, z:  1, w:  1 },
-    { x:  1, y: -1, z:  1, w: -1 },
-    { x:  1, y: -1, z: -1, w:  1 },
-    { x:  1, y: -1, z: -1, w: -1 },
-    { x: -1, y:  1, z:  1, w:  1 },
-    { x: -1, y:  1, z:  1, w: -1 },
-    { x: -1, y:  1, z: -1, w:  1 },
-    { x: -1, y:  1, z: -1, w: -1 },
-    { x: -1, y: -1, z:  1, w:  1 },
-    { x: -1, y: -1, z:  1, w: -1 },
-    { x: -1, y: -1, z: -1, w:  1 },
-    { x: -1, y: -1, z: -1, w: -1 }
+    { x:  50, y:  50, z:  50, w:  50 },
+    { x:  50, y:  50, z:  50, w: -50 },
+    { x:  50, y:  50, z: -50, w:  50 },
+    { x:  50, y:  50, z: -50, w: -50 },
+    { x:  50, y: -50, z:  50, w:  50 },
+    { x:  50, y: -50, z:  50, w: -50 },
+    { x:  50, y: -50, z: -50, w:  50 },
+    { x:  50, y: -50, z: -50, w: -50 },
+    { x: -50, y:  50, z:  50, w:  50 },
+    { x: -50, y:  50, z:  50, w: -50 },
+    { x: -50, y:  50, z: -50, w:  50 },
+    { x: -50, y:  50, z: -50, w: -50 },
+    { x: -50, y: -50, z:  50, w:  50 },
+    { x: -50, y: -50, z:  50, w: -50 },
+    { x: -50, y: -50, z: -50, w:  50 },
+    { x: -50, y: -50, z: -50, w: -50 }
   ];
 
 var edges = [
@@ -77,7 +77,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 10000);
   camera.useQuaternion = true;
 
-  camera.position.set(3, 3, 3);
+  camera.position.set(200, 300, 200);
   camera.lookAt(scene.position);
 
   // Initialize the renderer
@@ -113,6 +113,28 @@ function initLights(){
 var floortexture;
 var lines;
 function initGeometry(){
+//  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
+//  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+//  floorTexture.repeat.set(50, 50);
+//  floorTexture.anisotropy = 8;
+//
+//  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, transparent:true, opacity:0.80 } );
+//  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+//  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+//  floor.rotation.x = -Math.PI / 2;
+
+//  scene.add(floor);
+
+//  var material = new THREE.MeshLambertMaterial({ emissive:0x505050, color: 0xffffff});
+//
+//  var height = 100
+//  var width = 100
+//
+//  var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
+//
+//  box.position.set(0, 0, 0)
+//  scene.add(box);
+
   hyper_shape = new Shape(vertices, edges);
 
   hyper_shape.rotate('xw', Math.PI*1/4);
@@ -137,8 +159,8 @@ function init(){
 
   time          = Date.now();
   bodyAngle     = 0;
-  bodyAxis      = new THREE.Vector3(0, 1, 0);
-  bodyPosition  = new THREE.Vector3(0, 15, 0);
+  bodyAxis      = new THREE.Vector3(0, 0, 1);
+  bodyPosition  = new THREE.Vector3(0, 0, 0);
 
   initScene();
   initGeometry();
@@ -174,7 +196,6 @@ function bridgeConfigUpdated(config){
 }
 
 function bridgeOrientationUpdated(quatValues) {
-
   // Do first-person style controls (like the Tuscany demo) using the rift and keyboard.
 
   // TODO: Don't instantiate new objects in here, these should be re-used to avoid garbage collection.
@@ -201,11 +222,20 @@ function onMouseDown(event) {
   // Stub
 }
 
-
 function onKeyDown(event) {
- // Stub
-}
 
+  if(event.keyCode == 48){ // zero key.
+    useRift = !useRift;
+    onResize();
+  }
+
+  // prevent repeat keystrokes.
+  if(!keys[32] && (event.keyCode == 32)){ // Spacebar to jump
+    velocity.y += 1.9;
+  }
+
+  keys[event.keyCode] = true;
+}
 
 function onKeyUp(event) {
   keys[event.keyCode] = false;
@@ -217,7 +247,7 @@ function updateInput(delta) {
     return;
   }
 
-  var step = 0.1 * delta;
+  var step = 100 * delta;
 
   if(keys[87] || keys[38]){ // W or UP
     camera.translateZ(-step)
@@ -242,21 +272,6 @@ function animate() {
   time += delta;
 
   updateInput(delta);
-//  var bounds = 600;
-//  for(var i = 0; i < dataPackets.length; i++){
-//    dataPackets[i].obj.position.add( dataPackets[i].speed);
-//    if(dataPackets[i].obj.position.x < -bounds) {
-//      dataPackets[i].obj.position.x = bounds;
-//    } else if(dataPackets[i].obj.position.x > bounds){
-//      dataPackets[i].obj.position.x = -bounds;
-//    }
-//    if(dataPackets[i].obj.position.z < -bounds) {
-//      dataPackets[i].obj.position.z = bounds;
-//    } else if(dataPackets[i].obj.position.z > bounds){
-//      dataPackets[i].obj.position.z = -bounds;
-//    }
-//  }
-
   requestAnimationFrame(animate);
   render();
 }
