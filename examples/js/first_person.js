@@ -22,7 +22,6 @@ var bodyAxis;
 var bodyPosition;
 var viewAngle;
 
-var velocity;
 var oculusBridge;
 
 // Map for key states
@@ -59,7 +58,6 @@ function initScene() {
 
   controls = new THREE.OrbitControls(camera);
 }
-
 
 function initLights(){
   ambient = new THREE.AmbientLight(0x222222);
@@ -162,7 +160,6 @@ function init(){
   bodyAngle     = 0;
   bodyAxis      = new THREE.Vector3(0, 1, 0);
   bodyPosition  = new THREE.Vector3(0, 15, 0);
-  velocity      = new THREE.Vector3();
 
   initScene();
   initGeometry();
@@ -236,7 +233,7 @@ function onKeyDown(event) {
 
   // prevent repeat keystrokes.
   if(!keys[32] && (event.keyCode == 32)){ // Spacebar to jump
-    velocity.y += 1.9;
+    // velocity.y += 1.9;
   }
 
   keys[event.keyCode] = true;
@@ -254,24 +251,14 @@ function updateInput(delta) {
   }
 
   var step        = 100 * delta;
-  var turn_speed  = (55 * delta) * Math.PI / 180;
-
-  var vector = new THREE.Vector3( 0, 0, -1 );
-  vector.applyQuaternion(camera.quaternion);
-  var dir = vector.sub(camera.position).normalize();
-
   // Forward/backward
 
   if(keys[87] || keys[38]){ // W or UP
-      bodyPosition.x += dir.x * step;
-      bodyPosition.y += dir.y * step;
-      bodyPosition.z -= dir.z * step;
+    camera.translateZ(-step)
   }
 
   if(keys[83] || keys[40]){ // S or DOWN
-      bodyPosition.x -= dir.x * step;
-      bodyPosition.y -= dir.y * step;
-      bodyPosition.z += dir.z * step;
+    camera.translateZ(step)
   }
 
 //  if(keys[65] || keys[37]){ // A or LEFT
@@ -285,7 +272,6 @@ function updateInput(delta) {
 //  }
 
   // update the camera position when rendering to the oculus rift.
-  camera.position.set(bodyPosition.x, bodyPosition.y, bodyPosition.z);
 }
 
 
