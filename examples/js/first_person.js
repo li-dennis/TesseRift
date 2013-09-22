@@ -136,8 +136,6 @@ function initGeometry(){
 
   hyper_shape = new Shape(vertices, edges);
 
-  hyper_shape.rotate('xy', Math.PI*1/4);
-
   projection = hyper_shape.project();
   scene.add(projection);
 }
