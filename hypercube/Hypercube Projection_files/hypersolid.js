@@ -332,14 +332,13 @@ function initScene() {
   // controls = new THREE.OrbitControls(camera);
 }
 
-self.draw = function() {
+function draw() {
       var vertices = shape.getVertices();
       var edges = shape.getEdges();
 
-      context.clearRect(0, 0, canvas.width, canvas.height);
       var adjusted = [];
       for (var i in vertices) {
-        if (checkboxes.perspective.checked) {
+        if (true || checkboxes.perspective.checked) {
           var zratio = vertices[i].z / scale;
           adjusted[i] = {
             x: Math.floor(canvas.width / 2 + (0.90 + zratio * 0.30) * bound * (vertices[i].x / scale)) + 0.5,
@@ -367,20 +366,22 @@ self.draw = function() {
           var w = [adjusted[edges[i][0]].w, adjusted[edges[i][1]].w];
           geometry.vertices.push(new THREE.Vector3(x[0], y[0], z[0]);
           geometry.vertices.push(new THREE.Vector3(x[1], y[1], z[1]);
-          new THREE.Line()
-          var gradient = context.createLinearGradient(x[0], y[0], x[1], y[1]); // Distance fade effect
+          /*var gradient = context.createLinearGradient(x[0], y[0], x[1], y[1]); // Distance fade effect
           gradient.addColorStop(0, 'rgba(255, ' + w[0] + ', 0, ' + z[0] + ')');
           gradient.addColorStop(1, 'rgba(255, ' + w[1] + ', 0, ' + z[1] + ')');
           context.strokeStyle = gradient;
           context.stroke();
+          */
         }
       }
+      scene.add(new THREE.Line(geometry, THREE.LineBasicMaterial, THREE.LinePieces));
 
+      /*
       if (checkboxes.indices.checked) {
         for (var i in adjusted) {
           context.fillText(i.toString(), adjusted[i].x, adjusted[i].y);
         }
-      }
+      }*/
     };
 
 function initGeometry(){
@@ -395,7 +396,7 @@ function initGeometry(){
 //  floor.rotation.x = -Math.PI / 2;
 
 //  scene.add(floor);
-var 
+
   // add some boxes.
   var boxTexture = new THREE.ImageUtils.loadTexture( "textures/blue_blue.jpg" );
   for(var i = 0; i < 200; i++){
@@ -411,6 +412,7 @@ var
 
     boxes.push(box);
     scene.add(box);
+    debugger
   }
 
 //  var coreTexture = new THREE.ImageUtils.loadTexture( "textures/purple_blue.jpg" );
