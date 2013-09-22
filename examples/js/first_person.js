@@ -171,7 +171,11 @@ function init(){
     "onConfigUpdate"      : bridgeConfigUpdated
   });
   oculusBridge.connect();
-
+  //var oculusConfig = oculusBridge.getConfiguration();
+  //oculusConfig.lensSeparationDistance *= 2;
+  //oculusConfig.interpupillaryDistance *= 2;
+//debugger
+  //oculusBridge.updateConfig(oculusConfig);
   riftCam = new THREE.OculusRiftEffect(renderer);
 }
 

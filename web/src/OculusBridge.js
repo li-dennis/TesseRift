@@ -27,8 +27,8 @@ var OculusBridge = function(config) {
 
 		eyeToScreenDistance		: 0.041,
 
-		lensSeparationDistance	: 0.067,
-		interpupillaryDistance	: 0.0675,
+		lensSeparationDistance	: 0.067*4,
+		interpupillaryDistance	: 0.0675*4,
 
 		hResolution				: 1280,
 		vResolution				: 720,
@@ -183,6 +183,7 @@ var OculusBridge = function(config) {
 		"disconnect" 		: disconnect,
 		"connect" 			: connect,
 		"getOrientation" 	: getOrientation,
-		"getConfiguration" 	: getConfiguration
+		"getConfiguration" 	: getConfiguration,
+		"updateConfig"      : updateConfig
 	}
 };

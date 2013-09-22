@@ -128,7 +128,8 @@ function Shape(vertices, edges) {
     var material = new THREE.LineBasicMaterial({
         //color: 0xffffff,
         vertexColors: THREE.VertexColors,
-        linewidth: 5
+        linewidth: 5,
+        linejoin: 'round'
     });
 
     var edges = self.getEdges();
@@ -142,9 +143,9 @@ function Shape(vertices, edges) {
       geometry.vertices.push(new THREE.Vector3(start.x, start.y, start.z));
       geometry.vertices.push(new THREE.Vector3(end.x, end.y, end.z));
       //debugger
-      console.log(Math.max(Math.min(start.w*255,255),0));
-      geometry.colors.push(new THREE.Color(0xff0000 + Math.max(Math.min(start.w*255,255),0)<<4));
-      geometry.colors.push(new THREE.Color(0xff0000 + Math.max(Math.min(end.w*255,255),0)<<4));
+      console.log(start.w);
+      geometry.colors.push(new THREE.Color(0xff0000 | (start.w+100)*255/200<<8));
+      geometry.colors.push(new THREE.Color(0xff0000 | (end.w+100)*255/200<<8));
     }
     var lines = new THREE.Line(geometry, material, THREE.LinePieces);
 
