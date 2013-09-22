@@ -21,7 +21,7 @@ var viewAngle;
 var oculusBridge;
 var hyper_shape;
 
-var verticies = [
+var vertices = [
     { x:  1, y:  1, z:  1, w:  1 },
     { x:  1, y:  1, z:  1, w: -1 },
     { x:  1, y:  1, z: -1, w:  1 },
@@ -38,7 +38,7 @@ var verticies = [
     { x: -1, y: -1, z:  1, w: -1 },
     { x: -1, y: -1, z: -1, w:  1 },
     { x: -1, y: -1, z: -1, w: -1 }
-  ]
+  ];
 
 var edges = [
     [ 0,  1], [ 0,  2], [ 0,  4], [ 0,  8],
@@ -56,7 +56,7 @@ var edges = [
                         [12, 13], [12, 14],
                                   [13, 15],
                                   [14, 15]
-  ]
+  ];
 
 // Map for key states
 var keys = [];
@@ -77,7 +77,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 10000);
   camera.useQuaternion = true;
 
-  camera.position.set(300, 300, 300);
+  camera.position.set(3, 3, 3);
   camera.lookAt(scene.position);
 
   // Initialize the renderer
@@ -104,33 +104,14 @@ function initLights(){
 }
 
 var floortexture;
-
+var lines;
 function initGeometry(){
-  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
-  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-  floorTexture.repeat.set(50, 50);
-  floorTexture.anisotropy = 8;
+  hyper_shape = new Shape(vertices, edges);
 
-  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, transparent:true, opacity:0.80 } );
-  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-  floor.rotation.x = -Math.PI / 2;
+  hyper_shape.rotate('xw', Math.PI*1/4);
 
-  scene.add(floor);
-
-  var material = new THREE.MeshLambertMaterial({ emissive:0x505050, color: 0xffffff});
-
-  var height = 100
-  var width = 100
-
-  var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
-
-  box.position.set(0, 0, 0)
-  scene.add(box)
-
-  hyper_shape = Shape()
-
-
+  lines = hyper_shape.project();
+  scene.add(lines);
 }
 
 
@@ -229,7 +210,7 @@ function updateInput(delta) {
     return;
   }
 
-  var step = 100 * delta;
+  var step = 0.1 * delta;
 
   if(keys[87] || keys[38]){ // W or UP
     camera.translateZ(-step)
