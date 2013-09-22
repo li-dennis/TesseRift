@@ -25,8 +25,6 @@ var viewAngle;
 var velocity;
 var oculusBridge;
 
-
-
 // Map for key states
 var keys = [];
 for(var i = 0; i < 130; i++){
@@ -46,7 +44,7 @@ function initScene() {
   camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 10000);
   camera.useQuaternion = true;
 
-  camera.position.set(100, 1000, 100);
+  camera.position.set(100, 150, 100);
   camera.lookAt(scene.position);
 
   // Initialize the renderer
@@ -215,24 +213,13 @@ function bridgeOrientationUpdated(quatValues) {
   // multiply the body rotation by the Rift rotation.
   quat.multiply(quatCam);
 
-
-  // Make a vector pointing along the Z axis and rotate it accoring to the combined look/body angle.
-  var xzVector = new THREE.Vector3(0, 0, 1);
-  xzVector.applyQuaternion(quat);
-
-  // Compute the X/Z angle based on the combined look/body angle.  This will be used for FPS style movement controls
-  // so you can steer with a combination of the keyboard and by moving your head.
-  viewAngle = Math.atan2(xzVector.z, xzVector.x) + Math.PI;
-
   // Apply the combined look/body angle to the camera.
   camera.quaternion.copy(quat);
 }
 
-
 function onMouseMove(event) {
   mouse.set( (event.clientX / window.innerWidth - 0.5) * 2, (event.clientY / window.innerHeight - 0.5) * 2);
 }
-
 
 function onMouseDown(event) {
   // Stub
@@ -242,7 +229,6 @@ function onMouseDown(event) {
 
 
 function onKeyDown(event) {
-
   if(event.keyCode == 48){ // zero key.
     useRift = !useRift;
     onResize();
@@ -263,6 +249,9 @@ function onKeyUp(event) {
 
 
 function updateInput(delta) {
+  if(!useRift) {
+    return;
+  }
 
   var step        = 25 * delta;
   var turn_speed  = (55 * delta) * Math.PI / 180;
@@ -280,18 +269,6 @@ function updateInput(delta) {
       bodyPosition.z -= Math.sin(viewAngle) * step;
   }
 
-  // Turn
-
-  if(keys[81]){ // E
-      bodyAngle += turn_speed;
-  }
-
-  if(keys[69]){ // Q
-       bodyAngle -= turn_speed;
-  }
-
-  // Straif
-
   if(keys[65] || keys[37]){ // A or LEFT
       bodyPosition.x -= Math.cos(viewAngle + Math.PI/2) * step;
       bodyPosition.z -= Math.sin(viewAngle + Math.PI/2) * step;
@@ -302,22 +279,8 @@ function updateInput(delta) {
       bodyPosition.z += Math.sin(viewAngle+Math.PI/2) * step;
   }
 
-
-  // VERY simple gravity/ground plane physics for jumping.
-
-  velocity.y -= 0.15;
-
-  bodyPosition.y += velocity.y;
-
-  if(bodyPosition.y < 15){
-    velocity.y *= -0.12;
-    bodyPosition.y = 15;
-  }
-
   // update the camera position when rendering to the oculus rift.
-  if(useRift) {
-    camera.position.set(bodyPosition.x, bodyPosition.y, bodyPosition.z);
-  }
+  camera.position.set(bodyPosition.x, bodyPosition.y, bodyPosition.z);
 }
 
 
