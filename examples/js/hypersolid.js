@@ -140,9 +140,10 @@ function Shape(vertices, edges) {
       var end = vertices[edge[1]];
       geometry.vertices.push(new THREE.Vector3(start.x, start.y, start.z));
       geometry.vertices.push(new THREE.Vector3(end.x, end.y, end.z));
-debugger
-      geometry.vertexColors.push(new THREE.Color(0xff00ff));
-      geometry.vertexColors.push(new THREE.Color(0xff00ff));
+      //debugger
+      console.log(Math.max(Math.min(start.w*255,255),0));
+      geometry.colors.push(new THREE.Color(0xff0000 + Math.max(Math.min(start.w*255,255),0)<<4));
+      geometry.colors.push(new THREE.Color(0xff0000 + Math.max(Math.min(end.w*255,255),0)<<4));
     }
     var lines = new THREE.Line(geometry, material, THREE.LinePieces);
 
