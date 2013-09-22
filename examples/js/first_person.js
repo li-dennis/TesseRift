@@ -261,15 +261,13 @@ function updateInput(delta) {
     camera.translateZ(step)
   }
 
-//  if(keys[65] || keys[37]){ // A or LEFT
-//      bodyPosition.x -= Math.cos(viewAngle + Math.PI/2) * step;
-//      bodyPosition.z -= Math.sin(viewAngle + Math.PI/2) * step;
-//  }
-//
-//  if(keys[68] || keys[39]){ // D or RIGHT
-//      bodyPosition.x += Math.cos(viewAngle+Math.PI/2) * step;
-//      bodyPosition.z += Math.sin(viewAngle+Math.PI/2) * step;
-//  }
+  if(keys[65] || keys[37]){ // A or LEFT
+    camera.translateX(-step)
+  }
+
+  if(keys[68] || keys[39]){ // D or RIGHT
+    camera.translateX(step)
+  }
 
   // update the camera position when rendering to the oculus rift.
 }
