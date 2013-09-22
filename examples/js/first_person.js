@@ -229,10 +229,10 @@ function onMouseDown(event) {
 var numToAxis = {
   1:'xy',
   2:'yz',
-  3:'zw',
+  3:'xz',
   4:'xw',
-  5:'xz',
-  6:'xw'
+  5:'yw',
+  6:'zw'
 };
 
 var keys = [];
