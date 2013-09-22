@@ -12,13 +12,40 @@
         position:absolute;
         background-color:rgba(0,0,0,0.4);
       }
-    </style>
 
+      #shapes-text H1 {
+        font-size:18px;
+        margin-top:15px;
+
+      }
+
+      #shapes-text DIV{
+        margin-bottom:5px;
+      }
+
+      #shapes-text DIV LABEL{
+        display:inline-block;
+        width:160px;
+      }
+
+      #shapes-text SECTION {
+        margin-top:20px;
+      }
+
+    </style>
   </head>
 
   <body>
     <div id="info">
       <div class="button" id="toggle-render">toggle render mode</div>
+      <div class="button" id="shapes">shapes</div>
+      <div id="shapes-text" style="display:none;">
+        <h1> Shapes </h1>
+        <section>
+          <div><a class='shape_type' id='tesseract'>tesseract</a></div>
+          <div><a class='shape_type' id='simplex'>simplex</a></div>
+          <div><a class='shape_type' id='hypercone'>hypercone</a></div>
+        </section>
      </div>
     </div>
 
@@ -30,6 +57,7 @@
     <script src="lib/OrbitControls.js"></script>
     <script src="lib/RiftCamera.js"></script>
 
+    <script src="js/shapes.js"></script>
     <script src="js/hypersolid.js"></script>
     <script src="js/main.js"></script>
     <script src="js/postprocessing/EffectComposer.js"></script>

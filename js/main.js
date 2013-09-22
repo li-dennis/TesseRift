@@ -20,43 +20,7 @@ var viewAngle;
 
 var oculusBridge;
 var hyper_shape;
-
-var vertices = [
-    { x:  50, y:  50, z:  50, w:  50 },
-    { x:  50, y:  50, z:  50, w: -50 },
-    { x:  50, y:  50, z: -50, w:  50 },
-    { x:  50, y:  50, z: -50, w: -50 },
-    { x:  50, y: -50, z:  50, w:  50 },
-    { x:  50, y: -50, z:  50, w: -50 },
-    { x:  50, y: -50, z: -50, w:  50 },
-    { x:  50, y: -50, z: -50, w: -50 },
-    { x: -50, y:  50, z:  50, w:  50 },
-    { x: -50, y:  50, z:  50, w: -50 },
-    { x: -50, y:  50, z: -50, w:  50 },
-    { x: -50, y:  50, z: -50, w: -50 },
-    { x: -50, y: -50, z:  50, w:  50 },
-    { x: -50, y: -50, z:  50, w: -50 },
-    { x: -50, y: -50, z: -50, w:  50 },
-    { x: -50, y: -50, z: -50, w: -50 }
-  ];
-
-var edges = [
-    [ 0,  1], [ 0,  2], [ 0,  4], [ 0,  8],
-              [ 1,  3], [ 1,  5], [ 1,  9],
-              [ 2,  3], [ 2,  6], [ 2, 10],
-                        [ 3,  7], [ 3, 11],
-              [ 4,  5], [ 4,  6], [ 4, 12],
-                        [ 5,  7], [ 5, 13],
-                        [ 6,  7], [ 6, 14],
-                                  [ 7, 15],
-              [ 8,  9], [ 8, 10], [ 8, 12],
-                        [ 9, 11], [ 9, 13],
-                        [10, 11], [10, 14],
-                                  [11, 15],
-                        [12, 13], [12, 14],
-                                  [13, 15],
-                                  [14, 15]
-  ];
+var shape_type = 'tesseract';
 
 // Map for key states
 var keys = [];
@@ -124,12 +88,13 @@ function initGeometry(){
 //  floor.rotation.x = -Math.PI / 2;
 //  floor.position.y = -150;
 //  scene.add(floor);
+  var vertices = shapes[shape_type].vertices;
+  var edges = shapes[shape_type].edges;
   hyper_shape = new Shape(vertices, edges);
 
   projection = hyper_shape.project();
   scene.add(projection);
 }
-
 
 function init(){
   document.addEventListener('keydown', onKeyDown, false);
@@ -142,6 +107,22 @@ function init(){
     onResize();
   });
 
+  document.getElementById("shapes").addEventListener("click", function(){
+    var el = document.getElementById("shapes-text");
+    el.style.display = (el.style.display == "none") ? "" : "none";
+  });
+
+  var elems = document.getElementsByClassName('shape_type');
+  for (var i=0; i<elems.length; i++){
+    var elem = elems[i];
+    elem.addEventListener('click', function(){
+      shape_type = this.id;
+
+      var vertices = shapes[shape_type].vertices;
+      var edges = shapes[shape_type].edges;
+      hyper_shape = new Shape(vertices, edges);
+    });
+  }
   window.addEventListener('resize', onResize, false);
 
   time          = Date.now();
