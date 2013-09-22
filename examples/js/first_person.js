@@ -86,21 +86,21 @@ function initGeometry(){
 //  scene.add(floor);
 
   // add some boxes.
-//  var boxTexture = new THREE.ImageUtils.loadTexture( "textures/blue_blue.jpg" );
-//  for(var i = 0; i < 200; i++){
-//    var material = new THREE.MeshLambertMaterial({ emissive:0x505050, map: boxTexture, color: 0xffffff});
-//
-//    var height = Math.random() * 150+10;
-//    var width = Math.random() * 20 + 2;
-//
-//    var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
-//
-//    box.position.set(Math.random() * 1000 - 500, height/2 ,Math.random() * 1000 - 500);
-//    box.rotation.set(0, Math.random() * Math.PI * 2, 0);
-//
-//    boxes.push(box);
-//    scene.add(box);
-//  }
+  var boxTexture = new THREE.ImageUtils.loadTexture( "textures/blue_blue.jpg" );
+  for(var i = 0; i < 200; i++){
+    var material = new THREE.MeshLambertMaterial({ emissive:0x505050, map: boxTexture, color: 0xffffff});
+
+    var height = Math.random() * 150+10;
+    var width = Math.random() * 20 + 2;
+
+    var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
+
+    box.position.set(Math.random() * 1000 - 500, height/2 ,Math.random() * 1000 - 500);
+    box.rotation.set(0, Math.random() * Math.PI * 2, 0);
+
+    boxes.push(box);
+    scene.add(box);
+  }
 
 //  var coreTexture = new THREE.ImageUtils.loadTexture( "textures/purple_blue.jpg" );
 //  for(var i = 0; i < 50; i++){
