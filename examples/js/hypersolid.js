@@ -1,6 +1,5 @@
 function Shape(vertices, edges) {
   var self = this;
-  var tmp;
 
   // Rotations will always be relative to the original shape to avoid rounding errors.
   // This is a structure for caching the rotated vertices.
@@ -143,7 +142,8 @@ function Shape(vertices, edges) {
       geometry.vertices.push(new THREE.Vector3(end.x, end.y, end.z));
     }
     var lines = new THREE.Line(geometry, material, THREE.LinePieces);
+    var out = new THREE.Mesh(lines, new THREE.MeshLambertMaterial());
 
-    return lines;
+    return out;
   }
 }
