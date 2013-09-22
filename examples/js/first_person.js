@@ -227,9 +227,9 @@ function onMouseDown(event) {
 
 function onKeyDown(event) {
   // prevent repeat keystrokes.
-  if(keys[event.keyCode] && event.keyCode >= 48 && event.keyCode <= 57){
+  if(event.keyCode >= 48 && event.keyCode <= 57){
     var axis = numToAxis[event.keyCode - 48];
-    hyper_shape.rotate(axis, Math.PI*1/30);
+    hyper_shape.rotate(axis, Math.PI*1/600);
     scene.remove(projection);
     projection = hyper_shape.project();
     scene.add(projection);
