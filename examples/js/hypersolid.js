@@ -142,8 +142,7 @@ function Shape(vertices, edges) {
       geometry.vertices.push(new THREE.Vector3(end.x, end.y, end.z));
     }
     var lines = new THREE.Line(geometry, material, THREE.LinePieces);
-    var out = new THREE.Mesh(lines, new THREE.MeshLambertMaterial());
 
-    return out;
+    return lines;
   }
 }
