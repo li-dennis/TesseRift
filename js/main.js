@@ -64,7 +64,6 @@ for(var i = 0; i < 130; i++){
   keys.push(false);
 }
 
-
 function initScene() {
   clock = new THREE.Clock();
   mouse = new THREE.Vector2(0, 0);
