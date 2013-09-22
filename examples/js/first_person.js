@@ -110,8 +110,7 @@ function initLights(){
   scene.add(point);
 }
 
-var floortexture;
-var lines;
+var projection;
 function initGeometry(){
 //  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
 //  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
@@ -137,10 +136,10 @@ function initGeometry(){
 
   hyper_shape = new Shape(vertices, edges);
 
-  hyper_shape.rotate('xw', Math.PI*1/4);
+  hyper_shape.rotate('xy', Math.PI*1/4);
 
-  lines = hyper_shape.project();
-  scene.add(lines);
+  projection = hyper_shape.project();
+  scene.add(projection);
 }
 
 
@@ -223,19 +222,24 @@ function onMouseDown(event) {
 }
 
 function onKeyDown(event) {
-
-  if(event.keyCode == 48){ // zero key.
-    useRift = !useRift;
-    onResize();
-  }
-
   // prevent repeat keystrokes.
-  if(!keys[32] && (event.keyCode == 32)){ // Spacebar to jump
-    velocity.y += 1.9;
+  if(keys[event.keyCode] && event.keyCode >= 48 && event.keyCode <= 57){
+    var axis = numToAxis[event.keyCode - 48];
+    hyper_shape.rotate(axis, Math.PI*1/30);
+    scene.remove(projection);
+    projection = hyper_shape.project();
+    scene.add(projection);
   }
 
   keys[event.keyCode] = true;
 }
+
+var numToAxis = {
+  1:'zw',
+  2:'xw',
+  3:'xy',
+  4:'yz'
+};
 
 function onKeyUp(event) {
   keys[event.keyCode] = false;
