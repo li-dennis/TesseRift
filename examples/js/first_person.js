@@ -233,6 +233,7 @@ function onKeyDown(event) {
     scene.remove(projection);
     projection = hyper_shape.project();
     scene.add(projection);
+    return;
   }
 
   keys[event.keyCode] = true;
