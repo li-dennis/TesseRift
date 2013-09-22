@@ -176,7 +176,8 @@ function init(){
   //oculusConfig.interpupillaryDistance *= 2;
 //debugger
   //oculusBridge.updateConfig(oculusConfig);
-  riftCam = new THREE.OculusRiftEffect(renderer);
+    var options = {worldFactor: 500.0};
+  riftCam = new THREE.OculusRiftEffect(renderer, options);
 }
 
 function onResize() {

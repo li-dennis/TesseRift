@@ -7,6 +7,7 @@
  */
 
 THREE.OculusRiftEffect = function ( renderer, options ) {
+	debugger
 	// worldFactor indicates how many units is 1 meter
 	var worldFactor = (options && options.worldFactor) ? options.worldFactor: 1.0;
 
@@ -110,7 +111,7 @@ THREE.OculusRiftEffect = function ( renderer, options ) {
 		var r = -1.0 - (4 * (HMD.hScreenSize/4 - HMD.lensSeparationDistance/2) / HMD.hScreenSize);
 		distScale = (HMD.distortionK[0] + HMD.distortionK[1] * Math.pow(r,2) + HMD.distortionK[2] * Math.pow(r,4) + HMD.distortionK[3] * Math.pow(r,6));
 		var fov = HMD.fov ? HMD.fov : THREE.Math.radToDeg(2*Math.atan2(HMD.vScreenSize*distScale, 2*HMD.eyeToScreenDistance));
-
+debugger
 		// Compute camera projection matrices
 		var proj = (new THREE.Matrix4()).makePerspective( fov, aspect, 0.3, 10000 );
 		var h = 4 * (HMD.hScreenSize/4 - HMD.interpupillaryDistance/2) / HMD.hScreenSize;
