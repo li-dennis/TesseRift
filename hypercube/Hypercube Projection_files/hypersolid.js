@@ -27,6 +27,7 @@
   Hypersolid.Shape = function() {
     return new Shape(Array.prototype.slice.call(arguments, 0));
   };
+
   function Shape(argv) {
     var self = this,
       vertices = argv[0],
@@ -302,3 +303,193 @@
   /* End helper routines. */
 
 })(window.Hypersolid = window.Hypersolid || {});
+
+function initScene() {
+  clock = new THREE.Clock();
+  mouse = new THREE.Vector2(0, 0);
+
+  windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
+  aspectRatio = window.innerWidth / window.innerHeight;
+
+  scene = new THREE.Scene();
+
+  camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 10000);
+  camera.useQuaternion = true;
+
+  camera.position.set(100, 150, 100);
+  camera.lookAt(scene.position);
+
+  // Initialize the renderer
+  renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setClearColor(0x00000);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // scene.fog = new THREE.Fog(0xdbf7ff, 300, 700);
+
+  element = document.getElementById('viewport');
+  element.appendChild(renderer.domElement);
+
+  // controls = new THREE.OrbitControls(camera);
+}
+
+self.draw = function() {
+      var vertices = shape.getVertices();
+      var edges = shape.getEdges();
+
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      var adjusted = [];
+      for (var i in vertices) {
+        if (checkboxes.perspective.checked) {
+          var zratio = vertices[i].z / scale;
+          adjusted[i] = {
+            x: Math.floor(canvas.width / 2 + (0.90 + zratio * 0.30) * bound * (vertices[i].x / scale)) + 0.5,
+            y: Math.floor(canvas.height / 2 - (0.90 + zratio * 0.30) * bound * (vertices[i].y / scale)) + 0.5,
+            z: 0.60 + 0.40 * zratio,
+            w: 96 + Math.floor(96 * vertices[i].w / scale)
+          };
+        }
+        else {
+          adjusted[i] = {
+            x: Math.floor(canvas.width / 2 + bound * (vertices[i].x / scale)) + 0.5,
+            y: Math.floor(canvas.height / 2 - bound * (vertices[i].y / scale)) + 0.5,
+            z: 0.60 + 0.40 * vertices[i].z / scale,
+            w: 191 + Math.floor(64 * vertices[i].w / scale)
+          };
+        }
+      }
+
+      var geometry = new THREE.Geometry();
+      if (checkboxes.edges.checked) {
+        for (var i in edges) {
+          var x = [adjusted[edges[i][0]].x, adjusted[edges[i][1]].x];
+          var y = [adjusted[edges[i][0]].y, adjusted[edges[i][1]].y];
+          var z = [adjusted[edges[i][0]].z, adjusted[edges[i][1]].z];
+          var w = [adjusted[edges[i][0]].w, adjusted[edges[i][1]].w];
+          geometry.vertices.push(new THREE.Vector3(x[0], y[0], z[0]);
+          geometry.vertices.push(new THREE.Vector3(x[1], y[1], z[1]);
+          new THREE.Line()
+          var gradient = context.createLinearGradient(x[0], y[0], x[1], y[1]); // Distance fade effect
+          gradient.addColorStop(0, 'rgba(255, ' + w[0] + ', 0, ' + z[0] + ')');
+          gradient.addColorStop(1, 'rgba(255, ' + w[1] + ', 0, ' + z[1] + ')');
+          context.strokeStyle = gradient;
+          context.stroke();
+        }
+      }
+
+      if (checkboxes.indices.checked) {
+        for (var i in adjusted) {
+          context.fillText(i.toString(), adjusted[i].x, adjusted[i].y);
+        }
+      }
+    };
+
+function initGeometry(){
+//  floorTexture = new THREE.ImageUtils.loadTexture( "textures/tile.jpg" );
+//  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+//  floorTexture.repeat.set( 50, 50 );
+//  floorTexture.anisotropy = 32;
+//
+//  var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, transparent:true, opacity:0.80 } );
+//  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+//  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+//  floor.rotation.x = -Math.PI / 2;
+
+//  scene.add(floor);
+var 
+  // add some boxes.
+  var boxTexture = new THREE.ImageUtils.loadTexture( "textures/blue_blue.jpg" );
+  for(var i = 0; i < 200; i++){
+    var material = new THREE.MeshLambertMaterial({ emissive:0x505050, map: boxTexture, color: 0xffffff});
+
+    var height = Math.random() * 150+10;
+    var width = Math.random() * 20 + 2;
+
+    var box = new THREE.Mesh( new THREE.CubeGeometry(width, height, width), material);
+
+    box.position.set(Math.random() * 1000 - 500, height/2 ,Math.random() * 1000 - 500);
+    box.rotation.set(0, Math.random() * Math.PI * 2, 0);
+
+    boxes.push(box);
+    scene.add(box);
+  }
+
+//  var coreTexture = new THREE.ImageUtils.loadTexture( "textures/purple_blue.jpg" );
+//  for(var i = 0; i < 50; i++){
+//    var material = new THREE.MeshLambertMaterial({ emissive:0x505050, map: coreTexture, color: 0xffffff});
+//
+//    var height = Math.random() * 100+30;
+//
+//    var box = new THREE.Mesh( new THREE.CubeGeometry(height, height, height), material);
+//
+//    box.position.set(Math.random() * 1000 - 500, Math.random() * 150 - 300 ,Math.random() * 1000 - 500);
+//    box.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+//
+//    core.push(box);
+//    scene.add(box);
+//  }
+
+  for(var i = 0; i < 100; i++){
+    var material = new THREE.MeshLambertMaterial({ emissive:0x008000, color: 0x00FF00});
+
+    var size = Math.random() * 15+3;
+
+    var box = new THREE.Mesh( new THREE.CubeGeometry(size, size*0.1, size*0.1), material);
+
+    box.position.set(Math.random() * 1000 - 500, Math.random() * 100 + 100 ,Math.random() * 1000 - 500);
+    //box.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+
+    var speedVector;
+    if(Math.random() > 0.5){
+      speedVector = new THREE.Vector3(0, 0, Math.random() * 1.5 + 0.5);
+      box.rotation.y = Math.PI / 2;
+    } else {
+      speedVector = new THREE.Vector3(Math.random() * 1.5 + 0.5, 0, 0);
+    }
+
+    dataPackets.push({
+      obj: box,
+      speed: speedVector
+    });
+    scene.add(box);
+  }
+}
+
+
+function init(){
+/*
+  document.addEventListener('keydown', onKeyDown, false);
+  document.addEventListener('keyup', onKeyUp, false);
+  document.addEventListener('mousedown', onMouseDown, false);
+  document.addEventListener('mousemove', onMouseMove, false);
+
+  document.getElementById("toggle-render").addEventListener("click", function(){
+    useRift = !useRift;
+    onResize();
+  });
+
+  window.addEventListener('resize', onResize, false);
+*/
+  time          = Date.now();
+  bodyAngle     = 0;
+  bodyAxis      = new THREE.Vector3(0, 1, 0);
+  bodyPosition  = new THREE.Vector3(0, 15, 0);
+
+  initScene();
+ // initGeometry();
+ // initLights();
+/*
+  oculusBridge = new OculusBridge({
+    "debug" : true,
+    "onOrientationUpdate" : bridgeOrientationUpdated,
+    "onConfigUpdate"      : bridgeConfigUpdated
+  });
+  oculusBridge.connect();
+
+  riftCam = new THREE.OculusRiftEffect(renderer);
+  */
+}
+
+window.onload = function() {
+  init();
+  //animate();
+}
